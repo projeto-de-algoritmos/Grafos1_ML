@@ -1,6 +1,9 @@
 from tkinter import *
-from PIL import ImageTk, Image
 from tkinter import ttk
+from PIL import ImageTk, Image
+from src.model import Grafo
+
+grafo = Grafo()
 
 estados_partida = [
     '', 'AC', 'AL', 'AM', 'AP', 'BA', 'CE',
@@ -55,7 +58,10 @@ def calcular_trajeto():
     if estado_partida == '' or estado_chegada == '':
         return
 
-    print(f"Saindo de {estado_partida} e indo para {estado_chegada}.")
+    if grafo.existe_aresta(estado_partida, estado_chegada):
+        print(f"Os estados {grafo.estados[estado_partida]} e {grafo.estados[estado_chegada]} fazem fronteira.")
+    else:
+        print("Não tem fronteira entre esses estados")
 
 
 # Instância da janela
@@ -107,4 +113,3 @@ Label(brasilFrame, image=img_mapa).grid(row=0, column=0, padx=5, pady=5)
 
 
 app.mainloop()
-
