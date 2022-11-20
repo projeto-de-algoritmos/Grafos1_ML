@@ -12,7 +12,9 @@ estados_partida = [
 cores = {
     'preto': '#242323',
     'cinza': '#c1c4be',
-    'cinza_claro': '#e6e1e5'
+    'cinza_claro': '#e6e1e5',
+    'branco': '#ffffff',
+    'azul': '#2176C1'
 }
 
 
@@ -33,7 +35,7 @@ def selecionar(e):
     # do estado de partida.
     if combo_estado_partida.get() == '':
         combo_estado_chegada.set('')
-        combo_estado_chegada.config(value=[" "])
+        combo_estado_chegada.config(value=[''])
 
     # Ajusta a lista de opções de estados de chegada
     # para não conter o estado que foi selecionado
@@ -46,6 +48,16 @@ def selecionar(e):
         combo_estado_chegada.config(value=estados_chegada)
 
 
+def calcular_trajeto():
+    estado_partida = combo_estado_partida.get()
+    estado_chegada = combo_estado_chegada.get()
+
+    if estado_partida == '' or estado_chegada == '':
+        return
+
+    print(f"Saindo de {estado_partida} e indo para {estado_chegada}.")
+
+
 # Instância da janela
 app = Tk()
 app.title('Mapa Brasil')
@@ -53,7 +65,7 @@ app.geometry('800x600')
 app.maxsize(1000, 650)
 app.config(bg=cores['cinza'])
 
-titulo = Label(app, text="Bem-vindo", bg="#2176C1", fg='white', relief=RAISED)
+titulo = Label(app, text="Bem-vindo", bg=cores['azul'], fg=cores['branco'], relief=RAISED)
 titulo.pack(ipady=5, fill='x')
 titulo.config(font=("Font", 30))
 
@@ -62,25 +74,27 @@ frame_selecao = Frame(app, bg=cores['cinza_claro'])
 frame_selecao.pack(pady=5)
 
 
-frame_partida = Frame(frame_selecao, bg="white")
+frame_partida = Frame(frame_selecao, bg=cores['branco'])
 frame_partida.grid(row=0, column=0, padx=10, pady=10)
 
-Label(frame_partida, text="Escolha o estado de partida", bg="white").pack(side="top", pady=5)
+Label(frame_partida, text="Escolha o estado de partida", bg=cores['branco']).pack(side="top", pady=5)
 combo_estado_partida = ttk.Combobox(frame_partida, value=estados_partida, width=30)
 combo_estado_partida.pack(side="bottom", padx=5, pady=5)
+combo_estado_partida.current(0)
 combo_estado_partida.bind("<<ComboboxSelected>>", selecionar)
 
 
-frame_chegada = Frame(frame_selecao, bg="white")
+frame_chegada = Frame(frame_selecao, bg=cores['branco'])
 frame_chegada.grid(row=0, column=1, padx=10, pady=10)
 
-Label(frame_chegada, text="Escolha o estado de chegada", bg="white").pack(side="top", pady=5)
-combo_estado_chegada = ttk.Combobox(frame_chegada, value=[" "], width=30)
+Label(frame_chegada, text="Escolha o estado de chegada", bg=cores['branco']).pack(side="top", pady=5)
+combo_estado_chegada = ttk.Combobox(frame_chegada, value=[''], width=30)
+combo_estado_chegada.current(0)
 combo_estado_chegada.pack(side="bottom", padx=5, pady=5)
 
 
 frame_botao = Frame(frame_selecao)
-botao_calcular = Button(frame_selecao, text="Calcular trajeto")
+botao_calcular = Button(frame_selecao, text="Calcular trajeto", command=calcular_trajeto)
 botao_calcular.grid(row=0, column=2, padx=10, pady=10)
 
 
