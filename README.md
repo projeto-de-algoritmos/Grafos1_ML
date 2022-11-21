@@ -14,7 +14,10 @@
 O projeto tem objetivo de mapear os estados do Brasil e aplicar um algoritmo de BFS para encontrar a menor quantidade de estados que conectam os dois escolhidos 
 
 ## Screenshots
-Adicione 3 ou mais screenshots do projeto em funcionamento.
+![msg769235385-28806](https://user-images.githubusercontent.com/62102447/203167479-e75e2c92-09bd-45d1-b411-5d7e0d022855.jpg)
+![msg769235385-28805](https://user-images.githubusercontent.com/62102447/203167493-7f50e28f-432c-4ff5-b8d8-fb3d1b09145d.jpg)
+![msg769235385-28807](https://user-images.githubusercontent.com/62102447/203167500-6f304707-850d-4410-ad35-e948d4df40da.jpg)
+
 
 ## Instalação 
 **Linguagem**: Python3 <br>
