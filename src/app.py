@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import ttk
 from PIL import ImageTk, Image
 from src.model import Grafo
+import src.bfs as bfs
 
 grafo = Grafo()
 
@@ -27,89 +28,111 @@ def selecionar(e):
     na Combobox do estado de partida.
     """
 
-    # Limpa o campo do estado de chegada caso
+    # Limpa o campo do estado de destino caso
     # tenha o mesmo estado no campo do estado
     # de partida.
-    if combo_estado_partida.get() == combo_estado_chegada.get():
-        combo_estado_chegada.set('')
+    if combo_estado_partida.get() == combo_estado_destino.get():
+        combo_estado_destino.set('')
 
-    # Limpa e reseta o campo do estado de chegada
+    # Limpa e reseta o campo do estado de destino
     # caso selecione a opção vazia no campo
     # do estado de partida.
     if combo_estado_partida.get() == '':
-        combo_estado_chegada.set('')
-        combo_estado_chegada.config(value=[''])
+        combo_estado_destino.set('')
+        combo_estado_destino.config(value=[''])
 
-    # Ajusta a lista de opções de estados de chegada
+    # Ajusta a lista de opções de estados de destino
     # para não conter o estado que foi selecionado
     # como o de partida.
     else:
         estado = combo_estado_partida.get()
-        estados_chegada = estados_partida.copy()
-        estados_chegada.pop(estados_chegada.index(estado))
-        estados_chegada.pop(estados_chegada.index(''))
-        combo_estado_chegada.config(value=estados_chegada)
+        estados_destino = estados_partida.copy()
+        estados_destino.pop(estados_destino.index(estado))
+        estados_destino.pop(estados_destino.index(''))
+        combo_estado_destino.config(value=estados_destino)
 
 
 def calcular_trajeto():
     estado_partida = combo_estado_partida.get()
-    estado_chegada = combo_estado_chegada.get()
+    estado_destino = combo_estado_destino.get()
 
-    if estado_partida == '' or estado_chegada == '':
+    if estado_partida == '' or estado_destino == '':
+        msg_calculo.config(text='Selecione os estados.')
         return
 
-    if grafo.existe_aresta(estado_partida, estado_chegada):
-        print(f"Os estados {grafo.estados[estado_partida]} e {grafo.estados[estado_chegada]} fazem fronteira.")
+    caminho = bfs.aplicar_busca(grafo, estado_partida, estado_destino)
+
+    msg_calculo.config(text=mensagem(caminho, estado_partida, estado_destino))
+
+
+def mensagem(caminho,  e_partida, e_destino):
+    if not caminho[1:-1]:
+        msg = 'Esses estados fazem fronteira.'
     else:
-        print("Não tem fronteira entre esses estados")
+        estados = [grafo.estados[i] for i in caminho]
+        msg = f"""Um caminho possível entre {grafo.estados[e_partida]} e {grafo.estados[e_destino]}
+    passando pela menor quantidade de estados é:
+{' -> '.join(estados)}"""
+
+    return msg
 
 
-# Instância da janela
-app = Tk()
-app.title('Mapa Brasil')
-app.geometry('800x600')
-app.maxsize(1000, 650)
-app.config(bg=cores['cinza'])
+if __name__ == "__main__":
+    # Instância da janela
+    app = Tk()
+    app.title('Mapa Brasil')
+    app.geometry('800x600')
+    app.maxsize(1500, 650)
+    app.config(bg=cores['cinza'])
 
-titulo = Label(app, text="Bem-vindo", bg=cores['azul'], fg=cores['branco'], relief=RAISED)
-titulo.pack(ipady=5, fill='x')
-titulo.config(font=("Font", 30))
-
-
-frame_selecao = Frame(app, bg=cores['cinza_claro'])
-frame_selecao.pack(pady=5)
+    titulo = Label(app, text="Bem-vindo", bg=cores['azul'], fg=cores['branco'], relief=RAISED)
+    titulo.pack(ipady=5, fill='x')
+    titulo.config(font=("Font", 30))
 
 
-frame_partida = Frame(frame_selecao, bg=cores['branco'])
-frame_partida.grid(row=0, column=0, padx=10, pady=10)
+    # Frame para os campos de seleção e botão
+    frame_selecao = Frame(app, bg=cores['cinza_claro'])
+    frame_selecao.pack(pady=5)
 
-Label(frame_partida, text="Escolha o estado de partida", bg=cores['branco']).pack(side="top", pady=5)
-combo_estado_partida = ttk.Combobox(frame_partida, value=estados_partida, width=30)
-combo_estado_partida.pack(side="bottom", padx=5, pady=5)
-combo_estado_partida.current(0)
-combo_estado_partida.bind("<<ComboboxSelected>>", selecionar)
+    # Frame para seleção do estado de partida
+    frame_partida = Frame(frame_selecao, bg=cores['branco'])
+    frame_partida.grid(row=0, column=0, padx=10, pady=10)
 
-
-frame_chegada = Frame(frame_selecao, bg=cores['branco'])
-frame_chegada.grid(row=0, column=1, padx=10, pady=10)
-
-Label(frame_chegada, text="Escolha o estado de chegada", bg=cores['branco']).pack(side="top", pady=5)
-combo_estado_chegada = ttk.Combobox(frame_chegada, value=[''], width=30)
-combo_estado_chegada.current(0)
-combo_estado_chegada.pack(side="bottom", padx=5, pady=5)
+    Label(frame_partida, text="Escolha o estado de partida", bg=cores['branco']).pack(side="top", pady=5)
+    combo_estado_partida = ttk.Combobox(frame_partida, value=estados_partida, width=30)
+    combo_estado_partida.pack(side="bottom", padx=5, pady=5)
+    combo_estado_partida.current(0)
+    combo_estado_partida.bind("<<ComboboxSelected>>", selecionar)
 
 
-frame_botao = Frame(frame_selecao)
-botao_calcular = Button(frame_selecao, text="Calcular trajeto", command=calcular_trajeto)
-botao_calcular.grid(row=0, column=2, padx=10, pady=10)
+    # Frame para seleção do estado de destino
+    frame_destino = Frame(frame_selecao, bg=cores['branco'])
+    frame_destino.grid(row=0, column=1, padx=10, pady=10)
+
+    Label(frame_destino, text="Escolha o estado de destino", bg=cores['branco']).pack(side="top", pady=5)
+    combo_estado_destino = ttk.Combobox(frame_destino, value=[''], width=30)
+    combo_estado_destino.current(0)
+    combo_estado_destino.pack(side="bottom", padx=5, pady=5)
+
+    frame_botao = Frame(frame_selecao)
+    botao_calcular = Button(frame_selecao, text="Calcular trajeto", command=calcular_trajeto)
+    botao_calcular.grid(row=0, column=2, padx=10, pady=10)
 
 
-brasilFrame = Frame(app, bg=cores['preto'])
-brasilFrame.pack(pady=15)
-
-mapa_path = '../assets/mapaBR.jpg'
-img_mapa = ImageTk.PhotoImage(Image.open(mapa_path))
-Label(brasilFrame, image=img_mapa).grid(row=0, column=0, padx=5, pady=5)
+    # Frame para a parte do mapa e da mensagem.
+    bottom_frame = Frame(app, bg=cores['cinza'], width=600)
+    bottom_frame.pack(pady=15)
 
 
-app.mainloop()
+    frame_mapa = Frame(bottom_frame, bg=cores['preto'])
+    frame_mapa.pack(side="left")
+    mapa_path = '../assets/mapaBR.jpg'
+    img_mapa = ImageTk.PhotoImage(Image.open(mapa_path))
+    Label(frame_mapa, image=img_mapa).grid(row=0, column=0, padx=5, pady=5)
+
+    frame_msg = Frame(bottom_frame, bg=cores['cinza'])
+    frame_msg.pack(side='top')
+    msg_calculo = Label(frame_msg)
+    msg_calculo.grid(row=0, column=0, padx=10, pady=5)
+
+    app.mainloop()

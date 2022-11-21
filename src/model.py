@@ -44,6 +44,8 @@ class Grafo(object):
     def __init__(self):
         """Inicializa as estruturas base do grafo."""
         self.lista_adj = self.adjacencias
+        self.visitado = {}
+        self.vizinhos = {}
 
     def get_vertices(self):
         """ Retorna a lista dos nós do grafo. """
