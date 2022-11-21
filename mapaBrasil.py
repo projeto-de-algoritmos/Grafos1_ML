@@ -1,3 +1,5 @@
+from queue import Queue
+
 class Grafo(object):
     """ Implementação básica de um grafo. """
 
@@ -68,4 +70,47 @@ class Grafo(object):
 if __name__ == "__main__":
     # Cria e imprime o grafo.
     grafo = Grafo()
-    print(grafo.lista_adj)
+
+    # bfs
+
+    visitado = {}
+    nivel = {}
+    parentesco = {}
+    bfs_traversal_output = []
+    queue = Queue()
+
+    for nos in grafo.get_vertices():
+        visitado[nos] = False
+        parentesco[nos] = None
+        nivel[nos] = -1
+    print(visitado)
+    print("---------visitado-------------")
+    print(nivel)
+    print("----------nivel------------")
+    print(parentesco)
+    print("----------parentesco------------")
+    s = 'AM'
+    visitado[s] = True
+    nivel[s] = 0
+    queue.put(s)
+
+    while not queue.empty():
+        u = queue.get()
+        bfs_traversal_output.append(u)
+
+        for v in grafo.lista_adj[u]:
+            if not visitado[v]:
+                visitado[v] = True
+                parentesco[v] = u
+                nivel[v] = nivel[u] + 1
+                queue.put(v)
+    print(bfs_traversal_output)
+
+    # menor caminho
+    v = "BA"
+    path = []
+    while v is not None:
+        path.append(v)
+        v = parentesco[v]
+    path.reverse()
+    print(path)
