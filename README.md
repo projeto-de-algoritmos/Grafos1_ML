@@ -1,12 +1,8 @@
-**!! Grafos1_MapaBrasil. !!** 
+# Grafos1_MapaBrasil
 
-Tema:
- - Grafos1
- 
-Mapa do Brasil
 
-**Número da Lista**: X<br>
-**Conteúdo da Disciplina**: XXXXXXXXXX<br>
+**Número da Lista**: 31<br>
+**Conteúdo da Disciplina**: Grafos 1<br>
 
 ## Alunos
 |Matrícula | Aluno |
@@ -15,18 +11,20 @@ Mapa do Brasil
 | 19/0093331 |  Matheus Costa Gomes |
 
 ## Sobre 
-Descreva os objetivos do seu projeto e como ele funciona. 
+O projeto tem objetivo de mapear os estados do Brasil e aplicar um algoritmo de BFS para encontrar a menor quantidade de estados que conectam os dois escolhidos 
 
 ## Screenshots
 Adicione 3 ou mais screenshots do projeto em funcionamento.
 
 ## Instalação 
-**Linguagem**: xxxxxx<br>
-**Framework**: (caso exista)<br>
-Descreva os pré-requisitos para rodar o seu projeto e os comandos necessários.
+**Linguagem**: Python3 <br>
+**Framework**: (N/A)<br>
+Para rodar a aplicação é necessário ter no mínimo a versão Python3.8 instalada na máquina.
+Em seguida clone o repositório e entre na pasta src e rode o seguinte comando no terminal:
+`python3 app.py`
 
 ## Uso 
-Explique como usar seu projeto caso haja algum passo a passo após o comando de execução.
+Com a aplicação em execução, selecione um estado de partida e depois um de destino e clique no botão para calcular o trajeto.
 
 ## Outros 
 Quaisquer outras informações sobre seu projeto podem ser descritas abaixo.
