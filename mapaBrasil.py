@@ -1,4 +1,5 @@
 from queue import Queue
+
 class Grafo(object):
     """ Implementação básica de um grafo. """
 
@@ -65,11 +66,12 @@ class Grafo(object):
         """
         return self.lista_adj[v.upper()]
 
+
 if __name__ == "__main__":
     # Cria e imprime o grafo.
     grafo = Grafo()
 
-  # bfs
+    # bfs
 
     visitado = {}
     nivel = {}
