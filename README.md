@@ -23,6 +23,17 @@ O projeto tem objetivo de mapear os estados do Brasil e aplicar um algoritmo de 
 **Linguagem**: Python3 <br>
 **Framework**: (N/A)<br>
 Para rodar a aplicação é necessário ter no mínimo a versão Python3.8 instalada na máquina.
+
+Garanta que possui a biblioteca `tkinter` instalada. Por padrão essa biblioteca geralmente vem incluída junto com o python, mas caso ocorra algum problema, realize a instalação pelos seguintes comandos no terminal:
+
+Linux:
+
+```sudo apt-get install python3-tk```
+
+Windows:
+
+```pip install tk```
+
 Em seguida clone o repositório e entre na pasta src e rode o seguinte comando no terminal:
 `python3 app.py`
 
